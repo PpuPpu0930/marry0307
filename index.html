@@ -12,7 +12,7 @@
 <!-- 카카오톡 등에서 공유 시 미리보기 (Open Graph) -->
 <meta property="og:type" content="website">
 <meta property="og:title" content="수현 ❤ 지현 결혼합니다">
-<meta property="og:description" content="2027년 03월 07일 일요일 오전 11시 20분 · 웨딩스퀘어 강변">
+<meta property="og:description" content="2026년 11월 14일 토요일 낮 12시 30분 · 웨딩스퀘어 강변">
 <meta property="og:image" content="https://picsum.photos/seed/wedding-hero/1200/630">
 
 <title>수현 ❤ 지현 결혼합니다</title>
@@ -280,7 +280,6 @@
     display:block;
     position:relative;
     border-radius:6px;
-    overflow:hidden;
     border:1px solid var(--line);
     margin-bottom:16px;
     background:#EFEAD9;
@@ -289,19 +288,20 @@
     position:relative;
     width:100%;
     aspect-ratio:4/3;
-    overflow:hidden;
     background:#EFEAD9;
   }
   .map-img{
     width:100%;height:100%;
     object-fit:cover;
     display:block;
+    border-radius:6px 6px 0 0;
     filter:saturate(.9) contrast(1.02);
   }
   /* 지도 이미지를 불러오지 못했을 때 대비한 배경(빈 화면 방지) */
   .map-img-wrap::before{
     content:'';
     position:absolute;inset:0;
+    border-radius:6px 6px 0 0;
     background:
       linear-gradient(#D8CDAF 1px, transparent 1px) 0 0/100% 33.3%,
       linear-gradient(90deg, #D8CDAF 1px, transparent 1px) 0 0/25% 100%;
@@ -315,8 +315,9 @@
     z-index:2;
     display:flex;flex-direction:column;align-items:center;
     filter:drop-shadow(0 3px 6px rgba(0,0,0,.28));
+    pointer-events:none;
   }
-  .map-pin svg{width:44px;height:44px;}
+  .map-pin svg{width:44px;height:44px;display:block;overflow:visible;}
   .map-pin::after{
     content:'';
     width:7px;height:7px;
@@ -332,6 +333,7 @@
     letter-spacing:.2px;
     color:var(--white);
     background:var(--ink);
+    border-radius:0 0 6px 6px;
   }
 
   .venue-name{
@@ -667,7 +669,7 @@
       <p class="hero-eyebrow">WE ARE GETTING MARRIED</p>
       <h1 class="hero-title serif">결혼합니다</h1>
       <p class="hero-names script">Suhyeon &amp; Jihyun</p>
-      <p class="hero-date">2027. 03. 07. SUN · AM 11:20</p>
+      <p class="hero-date">2026. 11. 14. SAT · PM 12:30</p>
     </div>
     <div class="scroll-cue"></div>
   </section>
@@ -743,7 +745,7 @@
 
 
     <p class="venue-name serif">웨딩스퀘어 강변</p>
-    <p class="venue-address">서울특별시 광진구 광나루로56길 85<br>강변테크노마트 4층</p>
+    <p class="venue-address">서울특별시 광진구 광나루로56길 85<br>강변테크노마트 3~4층</p>
 
     <div class="venue-actions">
       <a class="btn solid" href="https://naver.me/FdCx2LFq" target="_blank" rel="noopener">
@@ -785,7 +787,7 @@
         </div>
         <div>
           <p class="transit-text-title">건물 안에서</p>
-          <p class="transit-text-desc">테크노마트 4층 "웨딩스퀘어"로 오시면 됩니다.<br>1층 안내데스크에서도 위치를 안내받으실 수 있어요.</p>
+          <p class="transit-text-desc">테크노마트 3~4층 "웨딩스퀘어"로 오시면 됩니다.<br>1층 안내데스크에서도 위치를 안내받으실 수 있어요.</p>
         </div>
       </div>
     </div>
@@ -863,7 +865,7 @@
       바쁘신 중에도 참석이 어려우신 분들을 위해<br>
       마음만으로도 축하해 주시면 감사하겠습니다.
     </p>
-    <p class="footer-mark">Suhyeon &amp; Jihyun, 2027</p>
+    <p class="footer-mark">Suhyeon &amp; Jihyun, 2026</p>
   </footer>
 
 </div>
