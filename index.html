@@ -279,16 +279,16 @@
   .map-frame{
     display:block;
     position:relative;
-    border-radius:4px;
+    border-radius:6px;
     overflow:hidden;
     border:1px solid var(--line);
-    margin-bottom:22px;
+    margin-bottom:16px;
     background:#EFEAD9;
   }
   .map-img-wrap{
     position:relative;
     width:100%;
-    aspect-ratio:16/10;
+    aspect-ratio:4/3;
     overflow:hidden;
     background:#EFEAD9;
   }
@@ -314,93 +314,63 @@
     transform:translate(-50%,-100%);
     z-index:2;
     display:flex;flex-direction:column;align-items:center;
-    filter:drop-shadow(0 3px 5px rgba(0,0,0,.25));
+    filter:drop-shadow(0 3px 6px rgba(0,0,0,.28));
   }
-  .map-pin svg{width:34px;height:34px;}
+  .map-pin svg{width:44px;height:44px;}
   .map-pin::after{
     content:'';
-    width:6px;height:6px;
+    width:7px;height:7px;
     border-radius:50%;
     background:rgba(43,51,43,.35);
     margin-top:1px;
   }
-  .map-zoom{
-    position:absolute;
-    top:10px;right:10px;
-    z-index:2;
-    display:flex;flex-direction:column;
-    background:var(--white);
-    border-radius:4px;
-    box-shadow:0 2px 8px rgba(0,0,0,.18);
-    overflow:hidden;
-  }
-  .map-zoom span{
-    width:28px;height:28px;
-    display:flex;align-items:center;justify-content:center;
-    font-size:15px;
-    color:var(--ink-soft);
-    border-bottom:1px solid var(--line);
-  }
-  .map-zoom span:last-child{border-bottom:none;}
-  .map-scale{
-    position:absolute;
-    right:10px;bottom:10px;
-    z-index:2;
-    font-size:10px;
-    color:var(--ink-soft);
-    background:rgba(255,253,249,.85);
-    padding:2px 7px;
-    border-radius:2px;
-    display:flex;align-items:center;gap:5px;
-  }
-  .map-scale::before{
-    content:'';
-    width:22px;height:0;
-    border-top:1.5px solid var(--ink-soft);
-  }
   .map-caption{
     padding:14px 16px;
     text-align:center;
-    font-size:13px;
+    font-size:14px;
+    font-weight:600;
     letter-spacing:.2px;
-    color:var(--clay);
-    background:var(--white);
-    border-top:1px solid var(--line);
+    color:var(--white);
+    background:var(--ink);
   }
 
   .venue-name{
     text-align:center;
     font-family:'Noto Serif KR',serif;
-    font-size:19px;
-    font-weight:600;
-    margin-bottom:8px;
+    font-size:22px;
+    font-weight:700;
+    margin-bottom:10px;
   }
   .venue-address{
     text-align:center;
-    font-size:14px;
-    color:var(--ink-soft);
-    line-height:1.7;
+    font-size:15.5px;
+    color:var(--ink);
+    line-height:1.8;
     margin-bottom:22px;
   }
   .venue-actions{
     display:flex;
-    gap:8px;
-    flex-wrap:wrap;
-    justify-content:center;
+    flex-direction:column;
+    gap:10px;
   }
   .btn{
-    flex:1 1 auto;
-    min-width:104px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    gap:8px;
+    width:100%;
     text-align:center;
-    font-size:13px;
-    letter-spacing:.3px;
-    padding:12px 14px;
-    border-radius:3px;
-    border:1px solid var(--ink);
+    font-size:16px;
+    font-weight:600;
+    letter-spacing:.2px;
+    padding:16px 14px;
+    border-radius:8px;
+    border:1.5px solid var(--ink);
     background:transparent;
     color:var(--ink);
     cursor:pointer;
   }
+  .btn svg{width:19px;height:19px;flex-shrink:0;}
   .btn.solid{
     background:var(--ink);
     color:var(--white);
@@ -412,6 +382,41 @@
     color:var(--ink-soft);
     margin-top:16px;
     line-height:1.7;
+  }
+
+  /* ============ 오시는 길: 큰 글씨 교통편 안내 (고령 하객 배려) ============ */
+  .transit-guide{
+    margin-top:26px;
+    border:1px solid var(--line);
+    border-radius:10px;
+    overflow:hidden;
+    background:var(--white);
+  }
+  .transit-row{
+    display:flex;
+    align-items:flex-start;
+    gap:14px;
+    padding:18px 18px;
+    border-top:1px solid var(--line);
+  }
+  .transit-row:first-child{border-top:none;}
+  .transit-icon{
+    flex-shrink:0;
+    width:42px;height:42px;
+    border-radius:50%;
+    background:var(--parchment-deep);
+    display:flex;align-items:center;justify-content:center;
+  }
+  .transit-icon svg{width:21px;height:21px;color:var(--moss-deep);}
+  .transit-text-title{
+    font-size:15.5px;
+    font-weight:700;
+    margin-bottom:5px;
+  }
+  .transit-text-desc{
+    font-size:15px;
+    line-height:1.75;
+    color:var(--ink);
   }
 
   /* ============ 연락처 ============ */
@@ -718,9 +723,11 @@
              좌표는 강변테크노마트(웨딩스퀘어 강변) 위치이며 순서는 경도,위도 입니다.
              ⚠️ 이 지도가 실제로 뜨려면 NCP 콘솔 > Maps > Application에서
              이 사이트의 GitHub Pages 주소(예: https://아이디.github.io)를
-             'Web 서비스 URL'로 반드시 등록해야 합니다. (Referer 인증) -->
-        <img class="map-img"
-             src="https://maps.apigw.ntruss.com/map-static/v2/raster-cors?w=640&amp;h=400&amp;center=127.0946,37.5356&amp;level=17&amp;X-NCP-APIGW-API-KEY-ID=f9upoh6f2i"
+             'Web 서비스 URL'로 반드시 등록해야 합니다. (Referer 인증)
+             혹시 지도가 안 뜨더라도 JS가 자동으로 무료 대체 지도로 바꿔줍니다. -->
+        <img class="map-img" id="mapImg"
+             src="https://maps.apigw.ntruss.com/map-static/v2/raster-cors?w=800&amp;h=600&amp;center=127.0946,37.5356&amp;level=17&amp;X-NCP-APIGW-API-KEY-ID=f9upoh6f2i"
+             data-fallback="https://staticmap.openstreetmap.de/staticmap.php?center=37.5356,127.0946&amp;zoom=17&amp;size=640x480&amp;maptype=mapnik"
              alt="웨딩스퀘어 강변(강변테크노마트) 위치 지도"
              loading="lazy">
         <div class="map-pin">
@@ -729,23 +736,61 @@
             <circle cx="17" cy="11.5" r="4.5" fill="#FFFDF9"/>
           </svg>
         </div>
-        <div class="map-zoom"><span>+</span><span>&minus;</span></div>
-        <div class="map-scale">50m</div>
       </div>
-      <div class="map-caption">웨딩스퀘어 강변 · 강변테크노마트 3~4F · 탭하여 네이버지도 열기</div>
+      <div class="map-caption">지도를 누르면 네이버지도 앱으로 크게 볼 수 있어요</div>
     </a>
 
 
+
     <p class="venue-name serif">웨딩스퀘어 강변</p>
-    <p class="venue-address">서울특별시 광진구 광나루로56길 85, 강변테크노마트 3~4층<br>지하철 2호선 강변역 (테크노마트 판매동 지하 1층 직결)</p>
+    <p class="venue-address">서울특별시 광진구 광나루로56길 85<br>강변테크노마트 3~4층</p>
 
     <div class="venue-actions">
-      <a class="btn solid" href="https://naver.me/FdCx2LFq" target="_blank" rel="noopener">네이버지도로 보기</a>
-      <a class="btn" href="https://map.kakao.com/?q=%EC%9B%A8%EB%94%A9%EC%8A%A4%ED%80%98%EC%96%B4%20%EA%B0%95%EB%B3%80" target="_blank" rel="noopener">카카오맵</a>
-      <button class="btn" id="copyAddressBtn">주소 복사</button>
+      <a class="btn solid" href="https://naver.me/FdCx2LFq" target="_blank" rel="noopener">
+        <svg viewBox="0 0 24 24" fill="none"><path d="M12 21s7-6.5 7-12a7 7 0 1 0-14 0c0 5.5 7 12 7 12z" stroke="currentColor" stroke-width="1.8"/><circle cx="12" cy="9" r="2.4" stroke="currentColor" stroke-width="1.8"/></svg>
+        네이버지도로 길찾기
+      </a>
+      <a class="btn" href="https://map.kakao.com/?q=%EC%9B%A8%EB%94%A9%EC%8A%A4%ED%80%98%EC%96%B4%20%EA%B0%95%EB%B3%80" target="_blank" rel="noopener">
+        <svg viewBox="0 0 24 24" fill="none"><path d="M12 21s7-6.5 7-12a7 7 0 1 0-14 0c0 5.5 7 12 7 12z" stroke="currentColor" stroke-width="1.8"/><circle cx="12" cy="9" r="2.4" stroke="currentColor" stroke-width="1.8"/></svg>
+        카카오맵으로 길찾기
+      </a>
+      <button class="btn" id="copyAddressBtn">
+        <svg viewBox="0 0 24 24" fill="none"><rect x="8" y="8" width="12" height="12" rx="1.5" stroke="currentColor" stroke-width="1.8"/><path d="M5 15V5a1 1 0 0 1 1-1h10" stroke="currentColor" stroke-width="1.8"/></svg>
+        주소 복사하기
+      </button>
     </div>
 
-    <p class="venue-note">셔틀버스 · 주차 안내는 예식 1주일 전 별도 공지드립니다.</p>
+    <div class="transit-guide">
+      <div class="transit-row">
+        <div class="transit-icon">
+          <svg viewBox="0 0 24 24" fill="none"><rect x="4" y="5" width="16" height="12" rx="3" stroke="currentColor" stroke-width="1.8"/><circle cx="8.5" cy="17.5" r="1.5" fill="currentColor"/><circle cx="15.5" cy="17.5" r="1.5" fill="currentColor"/><path d="M4 10h16" stroke="currentColor" stroke-width="1.8"/></svg>
+        </div>
+        <div>
+          <p class="transit-text-title">지하철로 오시는 길</p>
+          <p class="transit-text-desc">2호선 강변역 하차 → 1번 또는 2번 출구로 나오면<br>테크노마트 건물과 바로 연결됩니다.</p>
+        </div>
+      </div>
+      <div class="transit-row">
+        <div class="transit-icon">
+          <svg viewBox="0 0 24 24" fill="none"><path d="M4 16V9.5a2 2 0 0 1 1.5-1.9L7 7h10l1.5.6A2 2 0 0 1 20 9.5V16" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/><rect x="3" y="16" width="18" height="3" rx="1" stroke="currentColor" stroke-width="1.8"/><circle cx="7.5" cy="12" r="1" fill="currentColor"/><circle cx="16.5" cy="12" r="1" fill="currentColor"/></svg>
+        </div>
+        <div>
+          <p class="transit-text-title">자가용으로 오시는 길</p>
+          <p class="transit-text-desc">내비게이션에 "웨딩스퀘어 강변" 또는<br>"강변테크노마트"를 검색해 주세요.<br>건물 내 주차장을 이용하실 수 있습니다.</p>
+        </div>
+      </div>
+      <div class="transit-row">
+        <div class="transit-icon">
+          <svg viewBox="0 0 24 24" fill="none"><path d="M12 3c-4 0-6 2.5-6 6.5C6 14 9 18 12 21c3-3 6-7 6-11.5C18 5.5 16 3 12 3z" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/><circle cx="12" cy="9.5" r="2.3" stroke="currentColor" stroke-width="1.8"/></svg>
+        </div>
+        <div>
+          <p class="transit-text-title">건물 안에서</p>
+          <p class="transit-text-desc">테크노마트 3~4층 "웨딩스퀘어"로 오시면 됩니다.<br>1층 안내데스크에서도 위치를 안내받으실 수 있어요.</p>
+        </div>
+      </div>
+    </div>
+
+    <p class="venue-note">길이 헷갈리시면 아래 신랑측·신부측 연락처로 편하게 연락 주세요.</p>
   </section>
 
   <div class="divider reveal">
@@ -892,6 +937,15 @@
   setVH();
   window.addEventListener('resize', setVH);
   window.addEventListener('orientationchange', setVH);
+
+  /* ---------- 지도 이미지 로드 실패 시 무료 대체 지도로 자동 전환 ---------- */
+  var mapImg = document.getElementById('mapImg');
+  if (mapImg) {
+    mapImg.addEventListener('error', function(){
+      var fallback = mapImg.getAttribute('data-fallback');
+      if (fallback && mapImg.src !== fallback) { mapImg.src = fallback; }
+    }, { once: true });
+  }
 
   /* ---------- 등장 애니메이션 ---------- */
   var revealEls = document.querySelectorAll('.reveal');
