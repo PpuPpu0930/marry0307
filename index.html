@@ -729,6 +729,83 @@
       copyText(btn.getAttribute('data-account'));
     });
   });
+ /* ---------- 참석 여부(RSVP) 팝업 ---------- */
+  // ⚠️ 아래 두 값을 본인 구글 폼 정보로 교체해야 실제로 응답이 전달됩니다.
+  //    설정 방법은 채팅 안내를 참고하세요. (구글 폼 만들기 → 사전 채워진 링크로 entry ID 확인)
+  var RSVP_CONFIG = {
+    formActionUrl: 'https://docs.google.com/forms/d/e/1FAIpQLSfNllQv_964preGHWo0HAucrO-oNgfOr90h0XCO1j_895DJrA/formResponse',
+    entry: {
+      name:    'entry.1529540757', // 성함
+      attend:  'entry.1171941952', // 참석 여부
+      count:   'entry.1183026755', // 인원
+      phone:   'entry.1199875226', // 연락처
+      message: 'entry.2080653965'  // 메시지
+    }
+  };
+  var RSVP_READY = RSVP_CONFIG.formActionUrl.indexOf('REPLACE_WITH_YOUR_FORM_ID') === -1;
+
+  var rsvpFab = document.getElementById('rsvpFab');
+  var rsvpOverlay = document.getElementById('rsvpOverlay');
+  var rsvpClose = document.getElementById('rsvpClose');
+  var rsvpForm = document.getElementById('rsvpForm');
+  var rsvpFormView = document.getElementById('rsvpFormView');
+  var rsvpDoneView = document.getElementById('rsvpDoneView');
+  var rsvpDoneClose = document.getElementById('rsvpDoneClose');
+
+  function openRsvp(){
+    rsvpOverlay.classList.add('open');
+    document.body.style.overflow = 'hidden';
+  }
+  function closeRsvp(){
+    rsvpOverlay.classList.remove('open');
+    document.body.style.overflow = '';
+  }
+
+  rsvpFab.addEventListener('click', openRsvp);
+  rsvpClose.addEventListener('click', closeRsvp);
+  rsvpOverlay.addEventListener('click', function(e){
+    if (e.target === rsvpOverlay) closeRsvp();
+  });
+  rsvpDoneClose.addEventListener('click', function(){
+    closeRsvp();
+    rsvpFormView.hidden = false;
+    rsvpDoneView.hidden = true;
+    rsvpForm.reset();
+  });
+
+  rsvpForm.addEventListener('submit', function(e){
+    e.preventDefault();
+
+    if (!RSVP_READY) {
+      showToast('폼 연결 설정이 아직 필요합니다');
+      return;
+    }
+
+    var submitBtn = rsvpForm.querySelector('.rsvp-submit');
+    submitBtn.disabled = true;
+    submitBtn.textContent = '전달 중...';
+
+    var data = new FormData();
+    data.append(RSVP_CONFIG.entry.name, document.getElementById('rsvpName').value);
+    data.append(RSVP_CONFIG.entry.attend, rsvpForm.querySelector('input[name="rsvpAttend"]:checked').value);
+    data.append(RSVP_CONFIG.entry.count, document.getElementById('rsvpCount').value);
+    data.append(RSVP_CONFIG.entry.phone, document.getElementById('rsvpPhone').value);
+    data.append(RSVP_CONFIG.entry.message, document.getElementById('rsvpMessage').value);
+
+    // 구글 폼은 CORS 응답을 주지 않으므로 no-cors로 전송하고 성공으로 간주합니다.
+    fetch(RSVP_CONFIG.formActionUrl, { method: 'POST', mode: 'no-cors', body: data })
+      .then(function(){ rsvpSubmitDone(); })
+      .catch(function(){ rsvpSubmitDone(); })
+      .finally(function(){
+        submitBtn.disabled = false;
+        submitBtn.textContent = '전달하기';
+      });
+  });
+
+  function rsvpSubmitDone(){
+    rsvpFormView.hidden = true;
+    rsvpDoneView.hidden = false;
+  }
 
 })();
 </script>
