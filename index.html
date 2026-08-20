@@ -1452,8 +1452,8 @@
       name:    'entry.1529540757', // 성함
       attend:  'entry.1171941952', // 참석 여부
       count:   'entry.1183026755', // 인원
-      phone:   'entry.1199875226', // 연락처
-      message: 'entry.2080653965'  // 메시지
+      phone:   'entry.1199875226' // 연락처
+      // message: 'entry.2080653965'  // 메시지
     }
   };
   var RSVP_READY = RSVP_CONFIG.formActionUrl.indexOf('REPLACE_WITH_YOUR_FORM_ID') === -1;
@@ -1504,7 +1504,7 @@
     data.append(RSVP_CONFIG.entry.attend, rsvpForm.querySelector('input[name="rsvpAttend"]:checked').value);
     data.append(RSVP_CONFIG.entry.count, document.getElementById('rsvpCount').value);
     data.append(RSVP_CONFIG.entry.phone, document.getElementById('rsvpPhone').value);
-    data.append(RSVP_CONFIG.entry.message, document.getElementById('rsvpMessage').value);
+    // data.append(RSVP_CONFIG.entry.message, document.getElementById('rsvpMessage').value);
 
     // 구글 폼은 CORS 응답을 주지 않으므로 no-cors로 전송하고 성공으로 간주합니다.
     fetch(RSVP_CONFIG.formActionUrl, { method: 'POST', mode: 'no-cors', body: data })
