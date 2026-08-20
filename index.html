@@ -676,6 +676,19 @@
   }
   .gb-name{font-size:14px;font-weight:700;}
   .gb-time{font-size:11px;color:var(--ink-soft);}
+  .gb-delete-btn{
+    margin-left:auto;
+    width:24px;height:24px;
+    flex-shrink:0;
+    border:none;
+    border-radius:50%;
+    background:var(--parchment-deep);
+    color:var(--ink-soft);
+    display:flex;align-items:center;justify-content:center;
+    cursor:pointer;
+    align-self:center;
+  }
+  .gb-delete-btn svg{width:12px;height:12px;}
   .gb-message{
     font-size:14px;
     line-height:1.7;
@@ -774,6 +787,15 @@
     cursor:pointer;
   }
   .music-toggle svg,.music-mute svg{width:15px;height:15px;}
+  .music-volume{
+    width:64px;
+    height:3px;
+    accent-color:var(--moss);
+    cursor:pointer;
+  }
+  @media (max-width:360px){
+    .music-volume{width:44px;}
+  }
 
   /* ============ RSVP 모달 ============ */
   .rsvp-overlay{
@@ -1230,6 +1252,7 @@
     <svg id="musicIconSound" viewBox="0 0 24 24" fill="none"><path d="M4 9v6h4l5 4V5L8 9H4z" fill="currentColor"/><path d="M16 9c1 1 1 5 0 6" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg>
     <svg id="musicIconMuted" viewBox="0 0 24 24" fill="none" hidden><path d="M4 9v6h4l5 4V5L8 9H4z" fill="currentColor"/><path d="M15.5 9.5l4 4M19.5 9.5l-4 4" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg>
   </button>
+  <input class="music-volume" id="musicVolume" type="range" min="0" max="100" value="60" aria-label="음량 조절">
 </div>
 
 <!-- ============ 참석 여부 전달 (RSVP) ============ -->
@@ -1618,10 +1641,11 @@
     });
   });
 
-  /* ---------- 배경음악 재생/일시정지/음소거 ---------- */
+  /* ---------- 배경음악 재생/일시정지/음소거/음량 ---------- */
   var bgm = document.getElementById('bgm');
   var musicToggle = document.getElementById('musicToggle');
   var musicMute = document.getElementById('musicMute');
+  var musicVolume = document.getElementById('musicVolume');
   var iconPlay = document.getElementById('musicIconPlay');
   var iconPause = document.getElementById('musicIconPause');
   var iconSound = document.getElementById('musicIconSound');
@@ -1648,6 +1672,20 @@
       bgm.muted = !bgm.muted;
       iconSound.hidden = bgm.muted;
       iconMuted.hidden = !bgm.muted;
+    });
+
+    musicVolume.addEventListener('input', function(){
+      var v = Number(musicVolume.value) / 100;
+      bgm.volume = v;
+      if (v === 0) {
+        bgm.muted = true;
+        iconSound.hidden = true;
+        iconMuted.hidden = false;
+      } else if (bgm.muted) {
+        bgm.muted = false;
+        iconSound.hidden = false;
+        iconMuted.hidden = true;
+      }
     });
   }
 
@@ -1755,6 +1793,21 @@
     return d.getFullYear() + '.' + pad(d.getMonth()+1) + '.' + pad(d.getDate()) + ' ' + pad(d.getHours()) + ':' + pad(d.getMinutes());
   }
 
+  // 이 기기(브라우저)에서 내가 남긴 방명록 id 목록 — 그 글에만 삭제 버튼을 보여줍니다.
+  function getMyGbIds(){
+    try { return JSON.parse(localStorage.getItem('gbMyEntries') || '[]'); }
+    catch (e) { return []; }
+  }
+  function addMyGbId(id){
+    var ids = getMyGbIds();
+    ids.push(id);
+    try { localStorage.setItem('gbMyEntries', JSON.stringify(ids)); } catch (e) {}
+  }
+  function removeMyGbId(id){
+    var ids = getMyGbIds().filter(function(x){ return x !== id; });
+    try { localStorage.setItem('gbMyEntries', JSON.stringify(ids)); } catch (e) {}
+  }
+
   function renderGbList(rows){
     if (!rows || rows.length === 0) {
       gbList.innerHTML = '';
@@ -1763,12 +1816,18 @@
       return;
     }
     gbEmpty.hidden = true;
+    var myIds = getMyGbIds();
     gbList.innerHTML = rows.map(function(item){
+      var canDelete = myIds.indexOf(item.id) !== -1;
       return (
-        '<div class="gb-item">' +
+        '<div class="gb-item" data-id="' + item.id + '">' +
           '<div class="gb-item-head">' +
             '<span class="gb-name">' + escapeHtml(item.name) + '</span>' +
             '<span class="gb-time">' + formatGbTime(item.created_at) + '</span>' +
+            (canDelete ?
+              '<button class="gb-delete-btn" type="button" aria-label="삭제">' +
+                '<svg viewBox="0 0 24 24" fill="none"><path d="M5 7h14M9 7V5a1 1 0 0 1 1-1h4a1 1 0 0 1 1 1v2m-8 0v12a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V7" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>' +
+              '</button>' : '') +
           '</div>' +
           '<div class="gb-message">' + escapeHtml(item.message) + '</div>' +
         '</div>'
@@ -1810,17 +1869,37 @@
       var submitBtn = gbForm.querySelector('.rsvp-submit');
       submitBtn.disabled = true;
 
-      sb.from('guestbook').insert({ name: name, message: message })
+      sb.from('guestbook').insert({ name: name, message: message }).select()
         .then(function(res){
           if (res.error) {
             showToast('등록에 실패했습니다. 잠시 후 다시 시도해주세요');
           } else {
+            if (res.data && res.data[0]) { addMyGbId(res.data[0].id); }
             gbForm.reset();
             showToast('방명록이 등록되었습니다');
             loadGbList();
           }
         })
         .finally(function(){ submitBtn.disabled = false; });
+    });
+
+    gbList.addEventListener('click', function(e){
+      var btn = e.target.closest('.gb-delete-btn');
+      if (!btn) return;
+      var itemEl = e.target.closest('.gb-item');
+      var id = itemEl.getAttribute('data-id');
+      if (!window.confirm('작성하신 방명록을 삭제할까요? 되돌릴 수 없습니다.')) return;
+
+      sb.from('guestbook').delete().eq('id', id)
+        .then(function(res){
+          if (res.error) {
+            showToast('삭제에 실패했습니다');
+          } else {
+            removeMyGbId(id);
+            showToast('삭제되었습니다');
+            loadGbList();
+          }
+        });
     });
   } else {
     gbForm.addEventListener('submit', function(e){
