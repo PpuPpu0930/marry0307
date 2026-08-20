@@ -304,22 +304,37 @@
   }
   .gallery-viewall-btn svg{width:15px;height:15px;}
 
-  /* ============ 사진 전체보기 팝업 ============ */
+  /* ============ 사진 전체보기 팝업 (작은 모달) ============ */
   .lightbox-overlay{
     position:fixed;inset:0;
     z-index:70;
-    background:var(--parchment);
+    background:rgba(38,20,25,.55);
+    display:flex;
+    align-items:flex-end;
+    justify-content:center;
     opacity:0;
     pointer-events:none;
-    transform:translateY(16px);
-    transition:opacity .25s ease, transform .25s ease;
+    transition:opacity .25s ease;
+  }
+  .lightbox-overlay.open{opacity:1;pointer-events:auto;}
+  @media (min-width:560px){
+    .lightbox-overlay{align-items:center;}
+  }
+  .lightbox-modal{
+    position:relative;
+    width:100%;
+    max-width:420px;
+    max-height:78vh;
     overflow-y:auto;
+    background:var(--parchment);
+    border-radius:16px 16px 0 0;
+    transform:translateY(24px);
+    transition:transform .3s ease;
     -webkit-overflow-scrolling:touch;
   }
-  .lightbox-overlay.open{
-    opacity:1;
-    pointer-events:auto;
-    transform:translateY(0);
+  .lightbox-overlay.open .lightbox-modal{transform:translateY(0);}
+  @media (min-width:560px){
+    .lightbox-modal{border-radius:16px;}
   }
   .lightbox-header{
     position:sticky;top:0;
@@ -327,13 +342,13 @@
     display:flex;
     align-items:center;
     justify-content:space-between;
-    padding:18px 20px;
+    padding:16px 18px;
     background:var(--parchment);
     border-bottom:1px solid var(--line);
   }
-  .lightbox-title{font-size:17px;font-weight:600;}
+  .lightbox-title{font-size:15px;font-weight:600;}
   .lightbox-close{
-    width:32px;height:32px;
+    width:30px;height:30px;
     border-radius:50%;
     border:none;
     background:var(--parchment-deep);
@@ -341,10 +356,10 @@
     display:flex;align-items:center;justify-content:center;
     cursor:pointer;
   }
-  .lightbox-close svg{width:14px;height:14px;}
+  .lightbox-close svg{width:13px;height:13px;}
   .lightbox-grid{
     display:grid;
-    grid-template-columns:1fr 1fr;
+    grid-template-columns:repeat(3,1fr);
     gap:3px;
     padding:3px;
   }
@@ -353,7 +368,55 @@
     aspect-ratio:1/1;
     object-fit:cover;
     display:block;
+    cursor:pointer;
   }
+
+  /* ============ 사진 큰 화면 보기 ============ */
+  .lightbox-big-overlay{
+    position:fixed;inset:0;
+    z-index:75;
+    background:rgba(20,10,13,.92);
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    opacity:0;
+    pointer-events:none;
+    transition:opacity .2s ease;
+  }
+  .lightbox-big-overlay.open{opacity:1;pointer-events:auto;}
+  .lightbox-big-overlay img{
+    max-width:92vw;
+    max-height:82vh;
+    object-fit:contain;
+    border-radius:4px;
+  }
+  .lightbox-big-close{
+    position:absolute;
+    top:18px;right:18px;
+    width:36px;height:36px;
+    border-radius:50%;
+    border:none;
+    background:rgba(255,253,251,.15);
+    color:var(--white);
+    display:flex;align-items:center;justify-content:center;
+    cursor:pointer;
+  }
+  .lightbox-big-close svg{width:15px;height:15px;}
+  .lightbox-big-arrow{
+    position:absolute;
+    top:50%;
+    transform:translateY(-50%);
+    width:38px;height:38px;
+    border-radius:50%;
+    border:none;
+    background:rgba(255,253,251,.15);
+    color:var(--white);
+    display:flex;align-items:center;justify-content:center;
+    cursor:pointer;
+  }
+  .lightbox-big-arrow svg{width:16px;height:16px;}
+  .lightbox-big-prev{left:12px;}
+  .lightbox-big-next{right:12px;}
 
   /* ============ 오시는 길 ============ */
   .location{padding:0 30px;}
@@ -455,18 +518,20 @@
   .mini-btn svg{width:18px;height:18px;flex-shrink:0;}
   .mini-btn:active{background:var(--parchment-deep);}
   .copy-address-link{
-    display:block;
-    width:100%;
+    display:inline-block;
+    width:auto;
+    margin:6px auto 20px;
     text-align:center;
     background:none;
     border:none;
-    padding:6px 0 20px;
+    padding:4px 2px;
     font-size:13px;
     color:var(--ink-soft);
     text-decoration:underline;
     text-underline-offset:3px;
     cursor:pointer;
   }
+  .venue-address + .copy-address-link{display:block;width:fit-content;}
   .venue-note{
     text-align:center;
     font-size:12.5px;
@@ -548,12 +613,15 @@
   }
   .contact-icons{display:flex;gap:8px;flex-shrink:0;}
 
-  .parent-card{padding:0;}
+  .parent-inline{
+    margin-top:14px;
+    border-top:1px solid var(--line);
+  }
   .parent-summary{
     display:flex;
     align-items:center;
     justify-content:space-between;
-    padding:18px 20px;
+    padding:14px 0 4px;
     cursor:pointer;
     list-style:none;
   }
@@ -564,11 +632,11 @@
     color:var(--ink-soft);
     transition:transform .25s ease;
   }
-  .parent-card[open] .parent-chevron{transform:rotate(180deg);}
+  .parent-inline[open] .parent-chevron{transform:rotate(180deg);}
   .parent-split{
     display:flex;
     gap:12px;
-    padding:0 20px 18px;
+    padding:8px 0 4px;
   }
   .parent-col{
     flex:1;
@@ -900,13 +968,28 @@
   </section>
 
   <div class="lightbox-overlay" id="lightboxOverlay">
-    <div class="lightbox-header">
-      <p class="lightbox-title serif">우리의 순간들</p>
-      <button class="lightbox-close" id="lightboxClose" type="button" aria-label="닫기">
-        <svg viewBox="0 0 24 24" fill="none"><path d="M6 6l12 12M18 6L6 18" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>
-      </button>
+    <div class="lightbox-modal">
+      <div class="lightbox-header">
+        <p class="lightbox-title serif">우리의 순간들</p>
+        <button class="lightbox-close" id="lightboxClose" type="button" aria-label="닫기">
+          <svg viewBox="0 0 24 24" fill="none"><path d="M6 6l12 12M18 6L6 18" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>
+        </button>
+      </div>
+      <div class="lightbox-grid" id="lightboxGrid"></div>
     </div>
-    <div class="lightbox-grid" id="lightboxGrid"></div>
+  </div>
+
+  <div class="lightbox-big-overlay" id="lightboxBigOverlay">
+    <button class="lightbox-big-close" id="lightboxBigClose" type="button" aria-label="닫기">
+      <svg viewBox="0 0 24 24" fill="none"><path d="M6 6l12 12M18 6L6 18" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>
+    </button>
+    <button class="lightbox-big-arrow lightbox-big-prev" id="lightboxBigPrev" type="button" aria-label="이전 사진">
+      <svg viewBox="0 0 24 24" fill="none"><path d="M15 5l-7 7 7 7" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+    </button>
+    <img id="lightboxBigImg" src="" alt="">
+    <button class="lightbox-big-arrow lightbox-big-next" id="lightboxBigNext" type="button" aria-label="다음 사진">
+      <svg viewBox="0 0 24 24" fill="none"><path d="M9 5l7 7-7 7" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+    </button>
   </div>
 
   <div class="divider reveal">
@@ -941,11 +1024,6 @@
       <div class="map-caption">지도를 누르면 네이버지도 앱으로 크게 볼 수 있어요</div>
     </a>
 
-
-
-    <p class="venue-name serif">웨딩스퀘어 강변</p>
-    <p class="venue-address">서울특별시 광진구 광나루로56길 85<br>강변테크노마트 4층 그레이스홀</p>
-
     <div class="venue-actions-mini">
       <a class="mini-btn" href="https://naver.me/FdCx2LFq" target="_blank" rel="noopener">
         <svg viewBox="0 0 24 24" fill="none"><path d="M12 21s7-6.5 7-12a7 7 0 1 0-14 0c0 5.5 7 12 7 12z" stroke="currentColor" stroke-width="1.8"/><circle cx="12" cy="9" r="2.4" stroke="currentColor" stroke-width="1.8"/></svg>
@@ -955,11 +1033,14 @@
         <svg viewBox="0 0 24 24" fill="none"><path d="M12 21s7-6.5 7-12a7 7 0 1 0-14 0c0 5.5 7 12 7 12z" stroke="currentColor" stroke-width="1.8"/><circle cx="12" cy="9" r="2.4" stroke="currentColor" stroke-width="1.8"/></svg>
         카카오맵
       </a>
-      <a class="mini-btn" href="tmap://route?goalx=127.0946&amp;goaly=37.5356&amp;goalname=%EC%9B%A8%EB%94%A9%EC%8A%A4%ED%80%98%EC%96%B4%20%EA%B0%95%EB%B3%80">
+      <button class="mini-btn" id="tmapBtn" type="button">
         <svg viewBox="0 0 24 24" fill="none"><path d="M12 21s7-6.5 7-12a7 7 0 1 0-14 0c0 5.5 7 12 7 12z" stroke="currentColor" stroke-width="1.8"/><circle cx="12" cy="9" r="2.4" stroke="currentColor" stroke-width="1.8"/></svg>
         티맵
-      </a>
+      </button>
     </div>
+
+    <p class="venue-name serif">웨딩스퀘어 강변</p>
+    <p class="venue-address">서울특별시 광진구 광나루로56길 85<br>강변테크노마트 4층 그레이스홀</p>
     <button class="copy-address-link" id="copyAddressBtn" type="button">주소 복사하기</button>
 
     <div class="transit-guide">
@@ -1029,28 +1110,28 @@
           </button>
         </div>
       </div>
-    </div>
 
-    <details class="contact-card parent-card">
-      <summary class="parent-summary">
-        <span class="contact-role">혼주 보기</span>
-        <svg class="parent-chevron" viewBox="0 0 24 24" fill="none"><path d="M6 9l6 6 6-6" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
-      </summary>
-      <div class="parent-split">
-        <div class="parent-col">
-          <div class="contact-person small">아버지 안ㅇㅇ</div>
-          <a class="icon-btn" href="tel:01000000001" aria-label="신랑 아버지께 전화">
-            <svg viewBox="0 0 24 24" fill="none"><path d="M6.6 10.8c1.4 2.7 3.9 5.2 6.6 6.6l2.2-2.2c.3-.3.7-.4 1-.2 1.1.4 2.3.6 3.5.6.6 0 1 .4 1 1V20c0 .6-.4 1-1 1-9.4 0-17-7.6-17-17 0-.6.4-1 1-1h3.4c.6 0 1 .4 1 1 0 1.2.2 2.4.6 3.5.1.3 0 .7-.2 1l-2.1 2.3z" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/></svg>
-          </a>
+      <details class="parent-inline">
+        <summary class="parent-summary">
+          <span class="contact-role">혼주 보기</span>
+          <svg class="parent-chevron" viewBox="0 0 24 24" fill="none"><path d="M6 9l6 6 6-6" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </summary>
+        <div class="parent-split">
+          <div class="parent-col">
+            <div class="contact-person small">아버지 안ㅇㅇ</div>
+            <a class="icon-btn" href="tel:01000000001" aria-label="신랑 아버지께 전화">
+              <svg viewBox="0 0 24 24" fill="none"><path d="M6.6 10.8c1.4 2.7 3.9 5.2 6.6 6.6l2.2-2.2c.3-.3.7-.4 1-.2 1.1.4 2.3.6 3.5.6.6 0 1 .4 1 1V20c0 .6-.4 1-1 1-9.4 0-17-7.6-17-17 0-.6.4-1 1-1h3.4c.6 0 1 .4 1 1 0 1.2.2 2.4.6 3.5.1.3 0 .7-.2 1l-2.1 2.3z" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/></svg>
+            </a>
+          </div>
+          <div class="parent-col">
+            <div class="contact-person small">어머니 이ㅇㅇ</div>
+            <a class="icon-btn" href="tel:01000000002" aria-label="신랑 어머니께 전화">
+              <svg viewBox="0 0 24 24" fill="none"><path d="M6.6 10.8c1.4 2.7 3.9 5.2 6.6 6.6l2.2-2.2c.3-.3.7-.4 1-.2 1.1.4 2.3.6 3.5.6.6 0 1 .4 1 1V20c0 .6-.4 1-1 1-9.4 0-17-7.6-17-17 0-.6.4-1 1-1h3.4c.6 0 1 .4 1 1 0 1.2.2 2.4.6 3.5.1.3 0 .7-.2 1l-2.1 2.3z" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/></svg>
+            </a>
+          </div>
         </div>
-        <div class="parent-col">
-          <div class="contact-person small">어머니 이ㅇㅇ</div>
-          <a class="icon-btn" href="tel:01000000002" aria-label="신랑 어머니께 전화">
-            <svg viewBox="0 0 24 24" fill="none"><path d="M6.6 10.8c1.4 2.7 3.9 5.2 6.6 6.6l2.2-2.2c.3-.3.7-.4 1-.2 1.1.4 2.3.6 3.5.6.6 0 1 .4 1 1V20c0 .6-.4 1-1 1-9.4 0-17-7.6-17-17 0-.6.4-1 1-1h3.4c.6 0 1 .4 1 1 0 1.2.2 2.4.6 3.5.1.3 0 .7-.2 1l-2.1 2.3z" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/></svg>
-          </a>
-        </div>
-      </div>
-    </details>
+      </details>
+    </div>
 
     <div class="contact-card">
       <p class="contact-role">BRIDE · 신부측</p>
@@ -1077,28 +1158,28 @@
           </button>
         </div>
       </div>
-    </div>
 
-    <details class="contact-card parent-card">
-      <summary class="parent-summary">
-        <span class="contact-role">혼주 보기</span>
-        <svg class="parent-chevron" viewBox="0 0 24 24" fill="none"><path d="M6 9l6 6 6-6" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
-      </summary>
-      <div class="parent-split">
-        <div class="parent-col">
-          <div class="contact-person small">아버지 윤ㅇㅇ</div>
-          <a class="icon-btn" href="tel:01000000003" aria-label="신부 아버지께 전화">
-            <svg viewBox="0 0 24 24" fill="none"><path d="M6.6 10.8c1.4 2.7 3.9 5.2 6.6 6.6l2.2-2.2c.3-.3.7-.4 1-.2 1.1.4 2.3.6 3.5.6.6 0 1 .4 1 1V20c0 .6-.4 1-1 1-9.4 0-17-7.6-17-17 0-.6.4-1 1-1h3.4c.6 0 1 .4 1 1 0 1.2.2 2.4.6 3.5.1.3 0 .7-.2 1l-2.1 2.3z" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/></svg>
-          </a>
+      <details class="parent-inline">
+        <summary class="parent-summary">
+          <span class="contact-role">혼주 보기</span>
+          <svg class="parent-chevron" viewBox="0 0 24 24" fill="none"><path d="M6 9l6 6 6-6" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </summary>
+        <div class="parent-split">
+          <div class="parent-col">
+            <div class="contact-person small">아버지 윤ㅇㅇ</div>
+            <a class="icon-btn" href="tel:01000000003" aria-label="신부 아버지께 전화">
+              <svg viewBox="0 0 24 24" fill="none"><path d="M6.6 10.8c1.4 2.7 3.9 5.2 6.6 6.6l2.2-2.2c.3-.3.7-.4 1-.2 1.1.4 2.3.6 3.5.6.6 0 1 .4 1 1V20c0 .6-.4 1-1 1-9.4 0-17-7.6-17-17 0-.6.4-1 1-1h3.4c.6 0 1 .4 1 1 0 1.2.2 2.4.6 3.5.1.3 0 .7-.2 1l-2.1 2.3z" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/></svg>
+            </a>
+          </div>
+          <div class="parent-col">
+            <div class="contact-person small">어머니 박ㅇㅇ</div>
+            <a class="icon-btn" href="tel:01000000004" aria-label="신부 어머니께 전화">
+              <svg viewBox="0 0 24 24" fill="none"><path d="M6.6 10.8c1.4 2.7 3.9 5.2 6.6 6.6l2.2-2.2c.3-.3.7-.4 1-.2 1.1.4 2.3.6 3.5.6.6 0 1 .4 1 1V20c0 .6-.4 1-1 1-9.4 0-17-7.6-17-17 0-.6.4-1 1-1h3.4c.6 0 1 .4 1 1 0 1.2.2 2.4.6 3.5.1.3 0 .7-.2 1l-2.1 2.3z" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/></svg>
+            </a>
+          </div>
         </div>
-        <div class="parent-col">
-          <div class="contact-person small">어머니 박ㅇㅇ</div>
-          <a class="icon-btn" href="tel:01000000004" aria-label="신부 어머니께 전화">
-            <svg viewBox="0 0 24 24" fill="none"><path d="M6.6 10.8c1.4 2.7 3.9 5.2 6.6 6.6l2.2-2.2c.3-.3.7-.4 1-.2 1.1.4 2.3.6 3.5.6.6 0 1 .4 1 1V20c0 .6-.4 1-1 1-9.4 0-17-7.6-17-17 0-.6.4-1 1-1h3.4c.6 0 1 .4 1 1 0 1.2.2 2.4.6 3.5.1.3 0 .7-.2 1l-2.1 2.3z" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/></svg>
-          </a>
-        </div>
-      </div>
-    </details>
+      </details>
+    </div>
   </section>
 
   <div class="divider reveal">
@@ -1188,9 +1269,6 @@
 
         <label class="rsvp-label" for="rsvpPhone">연락처 (선택)</label>
         <input class="rsvp-input" id="rsvpPhone" name="rsvpPhone" type="tel" placeholder="010-0000-0000">
-
-        <!-- <label class="rsvp-label" for="rsvpMessage">축하 메시지 (선택)</label>
-        <textarea class="rsvp-input rsvp-textarea" id="rsvpMessage" name="rsvpMessage" rows="3" placeholder="따뜻한 한마디를 남겨주세요"></textarea> -->
 
         <button class="rsvp-submit" type="submit">전달하기</button>
       </form>
@@ -1410,14 +1488,20 @@
 
   update();
 
-  /* ---------- 사진 전체보기 팝업 ---------- */
+  /* ---------- 사진 전체보기 팝업 (작은 그리드 + 큰 화면 보기) ---------- */
   var lightboxOverlay = document.getElementById('lightboxOverlay');
   var lightboxGrid = document.getElementById('lightboxGrid');
   var lightboxClose = document.getElementById('lightboxClose');
   var galleryViewAllBtn = document.getElementById('galleryViewAllBtn');
+  var lightboxBigOverlay = document.getElementById('lightboxBigOverlay');
+  var lightboxBigImg = document.getElementById('lightboxBigImg');
+  var lightboxBigClose = document.getElementById('lightboxBigClose');
+  var lightboxBigPrev = document.getElementById('lightboxBigPrev');
+  var lightboxBigNext = document.getElementById('lightboxBigNext');
+  var bigIndex = 0;
 
   lightboxGrid.innerHTML = photos.map(function(src, i){
-    return '<img src="' + src + '" alt="웨딩 사진 ' + (i + 1) + '" loading="lazy">';
+    return '<img src="' + src + '" alt="웨딩 사진 ' + (i + 1) + '" loading="lazy" data-index="' + i + '">';
   }).join('');
 
   function openLightbox(){
@@ -1430,6 +1514,31 @@
   }
   galleryViewAllBtn.addEventListener('click', openLightbox);
   lightboxClose.addEventListener('click', closeLightbox);
+  lightboxOverlay.addEventListener('click', function(e){
+    if (e.target === lightboxOverlay) closeLightbox();
+  });
+
+  function showBig(i){
+    bigIndex = (i + photos.length) % photos.length;
+    lightboxBigImg.src = photos[bigIndex];
+    lightboxBigImg.alt = '웨딩 사진 ' + (bigIndex + 1);
+    lightboxBigOverlay.classList.add('open');
+  }
+  function closeBig(){
+    lightboxBigOverlay.classList.remove('open');
+  }
+
+  lightboxGrid.addEventListener('click', function(e){
+    var img = e.target.closest('img[data-index]');
+    if (!img) return;
+    showBig(Number(img.getAttribute('data-index')));
+  });
+  lightboxBigClose.addEventListener('click', closeBig);
+  lightboxBigOverlay.addEventListener('click', function(e){
+    if (e.target === lightboxBigOverlay) closeBig();
+  });
+  lightboxBigPrev.addEventListener('click', function(){ showBig(bigIndex - 1); });
+  lightboxBigNext.addEventListener('click', function(){ showBig(bigIndex + 1); });
 
   /* ---------- 복사 (주소 / 계좌번호) — 클립보드 API + 구형 iOS 대체 ---------- */
   var toast = document.getElementById('toast');
@@ -1471,6 +1580,37 @@
   document.getElementById('copyAddressBtn').addEventListener('click', function(){
     copyText('서울특별시 광진구 광나루로56길 85');
   });
+
+  /* ---------- 티맵 앱 실행 (설치 안 되어 있으면 스토어로 이동) ---------- */
+  var tmapBtn = document.getElementById('tmapBtn');
+  if (tmapBtn) {
+    tmapBtn.addEventListener('click', function(){
+      var isIOS = /iP(hone|od|ad)/.test(navigator.userAgent);
+      var isAndroid = /Android/.test(navigator.userAgent);
+      var scheme = 'tmap://route?goalx=127.0946&goaly=37.5356&goalname=' + encodeURIComponent('웨딩스퀘어 강변');
+      var storeUrl = isIOS
+        ? 'https://apps.apple.com/kr/app/tmap/id431589174'
+        : (isAndroid ? 'https://play.google.com/store/apps/details?id=com.skt.tmap.ku' : null);
+
+      if (!isIOS && !isAndroid) {
+        showToast('티맵은 모바일 앱에서만 열 수 있어요');
+        return;
+      }
+
+      var opened = false;
+      function onVisChange(){ if (document.hidden) opened = true; }
+      document.addEventListener('visibilitychange', onVisChange);
+
+      window.location.href = scheme;
+
+      setTimeout(function(){
+        document.removeEventListener('visibilitychange', onVisChange);
+        if (!opened && storeUrl) {
+          window.location.href = storeUrl;
+        }
+      }, 1200);
+    });
+  }
 
   Array.prototype.forEach.call(document.querySelectorAll('.copy-account'), function(btn){
     btn.addEventListener('click', function(){
@@ -1520,8 +1660,8 @@
       name:    'entry.1529540757', // 성함
       attend:  'entry.1171941952', // 참석 여부
       count:   'entry.1183026755', // 인원
-      phone:   'entry.1199875226' // 연락처
-      // message: 'entry.2080653965'  // 메시지
+      phone:   'entry.1199875226', // 연락처
+      message: 'entry.2080653965'  // 메시지
     }
   };
   var RSVP_READY = RSVP_CONFIG.formActionUrl.indexOf('REPLACE_WITH_YOUR_FORM_ID') === -1;
@@ -1572,7 +1712,6 @@
     data.append(RSVP_CONFIG.entry.attend, rsvpForm.querySelector('input[name="rsvpAttend"]:checked').value);
     data.append(RSVP_CONFIG.entry.count, document.getElementById('rsvpCount').value);
     data.append(RSVP_CONFIG.entry.phone, document.getElementById('rsvpPhone').value);
-    data.append(RSVP_CONFIG.entry.message, document.getElementById('rsvpMessage').value);
 
     // 구글 폼은 CORS 응답을 주지 않으므로 no-cors로 전송하고 성공으로 간주합니다.
     fetch(RSVP_CONFIG.formActionUrl, { method: 'POST', mode: 'no-cors', body: data })
@@ -1605,8 +1744,8 @@
 
   function escapeHtml(str){
     return String(str == null ? '' : str).replace(/[&<>"']/g, function(c){
-  return { '&':'&amp;', '<':'&lt;', '>':'&gt;', '"':'&quot;', "'":'&#39;' }[c]; // '&#39;' 또는 "\'"로 수정
-});
+      return { '&':'&amp;', '<':'&lt;', '>':'&gt;', '"':'&quot;', "'":'&#39;' }[c];
+    });
   }
 
   function formatGbTime(isoString){
