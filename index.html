@@ -6,7 +6,7 @@
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-<meta name="theme-color" content="#2B332B">
+<meta name="theme-color" content="#4A2C33">
 <meta name="format-detection" content="telephone=no">
 
 <!-- 카카오톡 등에서 공유 시 미리보기 (Open Graph) -->
@@ -25,16 +25,16 @@
 <style>
   /* ============ 토큰 ============ */
   :root{
-    --ink:#2B332B;
-    --ink-soft:#4b5347;
-    --parchment:#F6F1E7;
-    --parchment-deep:#EDE3CE;
-    --moss:#5C6E51;
-    --moss-deep:#3F4B38;
-    --clay:#B97C6D;
-    --gold:#A98247;
-    --white:#FFFDF9;
-    --line:rgba(43,51,43,0.14);
+    --ink:#4A2C33;
+    --ink-soft:#7C5158;
+    --parchment:#FBF1EF;
+    --parchment-deep:#F4DAD7;
+    --moss:#C97B8C;
+    --moss-deep:#9C4F62;
+    --clay:#D98A93;
+    --gold:#C7A08F;
+    --white:#FFFDFB;
+    --line:rgba(74,44,51,0.14);
     --vh: 1vh;
   }
 
@@ -91,7 +91,7 @@
   /* ============ 히어로 ============ */
   .hero{
     position:relative;
-    height:calc(var(--vh, 1vh) * 100); 
+    height:calc(var(--vh, 1vh) * 100);
     min-height:560px;
     width:100%;
     overflow:hidden;
@@ -105,7 +105,7 @@
   }
   .hero-overlay{
     position:absolute;inset:0;
-    background:linear-gradient(180deg, rgba(20,24,18,0.15) 0%, rgba(20,24,18,0.10) 40%, rgba(20,24,18,0.72) 100%);
+    background:linear-gradient(180deg, rgba(38,20,25,0.15) 0%, rgba(38,20,25,0.10) 40%, rgba(38,20,25,0.72) 100%);
   }
   .hero-content{
     position:relative;
@@ -121,11 +121,11 @@
     border:1px solid rgba(255,253,249,.7);
     border-radius:50%;
     display:flex;align-items:center;justify-content:center;
-    font-family:'Cormorant Garamond',serif;
-    font-weight:600;
-    font-style:italic;
-    font-size:18px;
-    letter-spacing:1px;
+    font-family:'Noto Serif KR',serif;
+    font-weight:700;
+    font-style:normal;
+    font-size:17px;
+    letter-spacing:.5px;
   }
   .hero-eyebrow{
     font-size:12px;
@@ -141,10 +141,11 @@
     line-height:1.35;
   }
   .hero-names{
-    font-family:'Great Vibes', cursive;
-    font-weight:400;
-    font-size:27px;
-    letter-spacing:.5px;
+    font-family:'Cormorant Garamond',serif;
+    font-style:italic;
+    font-weight:500;
+    font-size:24px;
+    letter-spacing:.8px;
     color:rgba(255,253,249,.96);
     margin-bottom:12px;
     text-shadow:0 2px 10px rgba(0,0,0,.35);
@@ -258,7 +259,7 @@
     position:absolute;
     right:12px;bottom:12px;
     z-index:3;
-    background:rgba(20,24,18,.55);
+    background:rgba(38,20,25,.55);
     color:var(--white);
     font-size:11px;
     letter-spacing:1px;
@@ -286,6 +287,74 @@
     transform:scale(1.35);
   }
 
+  .gallery-viewall-btn{
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    gap:7px;
+    margin:18px auto 0;
+    padding:11px 20px;
+    border-radius:24px;
+    border:1px solid var(--ink);
+    background:transparent;
+    color:var(--ink);
+    font-size:13px;
+    font-weight:600;
+    cursor:pointer;
+  }
+  .gallery-viewall-btn svg{width:15px;height:15px;}
+
+  /* ============ 사진 전체보기 팝업 ============ */
+  .lightbox-overlay{
+    position:fixed;inset:0;
+    z-index:70;
+    background:var(--parchment);
+    opacity:0;
+    pointer-events:none;
+    transform:translateY(16px);
+    transition:opacity .25s ease, transform .25s ease;
+    overflow-y:auto;
+    -webkit-overflow-scrolling:touch;
+  }
+  .lightbox-overlay.open{
+    opacity:1;
+    pointer-events:auto;
+    transform:translateY(0);
+  }
+  .lightbox-header{
+    position:sticky;top:0;
+    z-index:2;
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    padding:18px 20px;
+    background:var(--parchment);
+    border-bottom:1px solid var(--line);
+  }
+  .lightbox-title{font-size:17px;font-weight:600;}
+  .lightbox-close{
+    width:32px;height:32px;
+    border-radius:50%;
+    border:none;
+    background:var(--parchment-deep);
+    color:var(--ink);
+    display:flex;align-items:center;justify-content:center;
+    cursor:pointer;
+  }
+  .lightbox-close svg{width:14px;height:14px;}
+  .lightbox-grid{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:3px;
+    padding:3px;
+  }
+  .lightbox-grid img{
+    width:100%;
+    aspect-ratio:1/1;
+    object-fit:cover;
+    display:block;
+  }
+
   /* ============ 오시는 길 ============ */
   .location{padding:0 30px;}
   .map-frame{
@@ -294,13 +363,13 @@
     border-radius:6px;
     border:1px solid var(--line);
     margin-bottom:16px;
-    background:#EFEAD9;
+    background:#F7E3DF;
   }
   .map-img-wrap{
     position:relative;
     width:100%;
     aspect-ratio:4/3;
-    background:#EFEAD9;
+    background:#F7E3DF;
   }
   .map-img{
     width:100%;height:100%;
@@ -315,9 +384,9 @@
     position:absolute;inset:0;
     border-radius:6px 6px 0 0;
     background:
-      linear-gradient(#D8CDAF 1px, transparent 1px) 0 0/100% 33.3%,
-      linear-gradient(90deg, #D8CDAF 1px, transparent 1px) 0 0/25% 100%;
-    background-color:#EFEAD9;
+      linear-gradient(#E9C3BC 1px, transparent 1px) 0 0/100% 33.3%,
+      linear-gradient(90deg, #E9C3BC 1px, transparent 1px) 0 0/25% 100%;
+    background-color:#F7E3DF;
     z-index:0;
   }
   .map-pin{
@@ -362,33 +431,41 @@
     line-height:1.8;
     margin-bottom:22px;
   }
-  .venue-actions{
+  .venue-actions-mini{
+    display:grid;
+    grid-template-columns:repeat(3,1fr);
+    gap:8px;
+    margin-bottom:10px;
+  }
+  .mini-btn{
     display:flex;
     flex-direction:column;
-    gap:10px;
-  }
-  .btn{
-    display:flex;
     align-items:center;
     justify-content:center;
-    gap:8px;
+    gap:4px;
+    padding:12px 4px;
+    border-radius:8px;
+    border:1px solid var(--line);
+    background:var(--white);
+    color:var(--ink);
+    font-size:12px;
+    font-weight:600;
+    text-align:center;
+  }
+  .mini-btn svg{width:18px;height:18px;flex-shrink:0;}
+  .mini-btn:active{background:var(--parchment-deep);}
+  .copy-address-link{
+    display:block;
     width:100%;
     text-align:center;
-    font-size:16px;
-    font-weight:600;
-    letter-spacing:.2px;
-    padding:16px 14px;
-    border-radius:8px;
-    border:1.5px solid var(--ink);
-    background:transparent;
-    color:var(--ink);
+    background:none;
+    border:none;
+    padding:6px 0 20px;
+    font-size:13px;
+    color:var(--ink-soft);
+    text-decoration:underline;
+    text-underline-offset:3px;
     cursor:pointer;
-  }
-  .btn svg{width:19px;height:19px;flex-shrink:0;}
-  .btn.solid{
-    background:var(--ink);
-    color:var(--white);
-    border-color:var(--ink);
   }
   .venue-note{
     text-align:center;
@@ -471,10 +548,27 @@
   }
   .contact-icons{display:flex;gap:8px;flex-shrink:0;}
 
-  .parent-card{padding:18px 20px;}
+  .parent-card{padding:0;}
+  .parent-summary{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    padding:18px 20px;
+    cursor:pointer;
+    list-style:none;
+  }
+  .parent-summary::-webkit-details-marker{display:none;}
+  .parent-summary .contact-role{margin-bottom:0;}
+  .parent-chevron{
+    width:16px;height:16px;
+    color:var(--ink-soft);
+    transition:transform .25s ease;
+  }
+  .parent-card[open] .parent-chevron{transform:rotate(180deg);}
   .parent-split{
     display:flex;
     gap:12px;
+    padding:0 20px 18px;
   }
   .parent-col{
     flex:1;
@@ -494,10 +588,8 @@
     background:var(--white);
     margin-bottom:26px;
   }
-  .gb-form-row{display:flex;gap:8px;margin-bottom:10px;}
   .gb-form .rsvp-input{margin-bottom:10px;}
   .gb-form .rsvp-input:last-of-type{margin-bottom:0;}
-  .gb-hint{font-size:11.5px;color:var(--ink-soft);margin:10px 0 4px;line-height:1.6;}
 
   .gb-list{display:flex;flex-direction:column;gap:12px;}
   .gb-empty{text-align:center;font-size:13.5px;color:var(--ink-soft);padding:20px 0;}
@@ -510,35 +602,12 @@
   }
   .gb-item-head{
     display:flex;
-    align-items:center;
-    gap:10px;
-    margin-bottom:10px;
+    align-items:baseline;
+    gap:8px;
+    margin-bottom:8px;
   }
-  .gb-avatar{
-    width:34px;height:34px;
-    border-radius:50%;
-    flex-shrink:0;
-    object-fit:cover;
-    background:var(--parchment-deep);
-    display:flex;align-items:center;justify-content:center;
-    font-size:13px;
-    font-weight:700;
-    color:var(--moss-deep);
-  }
-  .gb-meta{flex:1;min-width:0;}
   .gb-name{font-size:14px;font-weight:700;}
-  .gb-time{font-size:11px;color:var(--ink-soft);margin-top:1px;}
-  .gb-actions{display:flex;gap:6px;flex-shrink:0;}
-  .gb-action-btn{
-    width:28px;height:28px;
-    border-radius:50%;
-    border:1px solid var(--line);
-    background:var(--parchment);
-    color:var(--ink-soft);
-    display:flex;align-items:center;justify-content:center;
-    cursor:pointer;
-  }
-  .gb-action-btn svg{width:13px;height:13px;}
+  .gb-time{font-size:11px;color:var(--ink-soft);}
   .gb-message{
     font-size:14px;
     line-height:1.7;
@@ -546,18 +615,6 @@
     white-space:pre-wrap;
     word-break:break-word;
   }
-  .gb-edit-area{width:100%;}
-  .gb-edit-area textarea{width:100%;margin-bottom:8px;}
-  .gb-edit-actions{display:flex;gap:8px;}
-  .gb-edit-actions button{
-    flex:1;
-    padding:9px;
-    border-radius:6px;
-    font-size:13px;
-    cursor:pointer;
-  }
-  .gb-save-btn{border:none;background:var(--ink);color:var(--white);}
-  .gb-cancel-btn{border:1px solid var(--line);background:var(--white);color:var(--ink);}
   .icon-btn{
     width:34px;height:34px;
     border-radius:50%;
@@ -631,15 +688,15 @@
     z-index:40;
     display:flex;
     align-items:center;
-    gap:8px;
-    padding:9px 12px;
+    gap:6px;
+    padding:6px;
     background:var(--white);
     border:1px solid var(--line);
     border-radius:30px;
     box-shadow:0 8px 22px rgba(43,51,43,.18);
   }
   .music-toggle,.music-mute{
-    width:30px;height:30px;
+    width:34px;height:34px;
     flex-shrink:0;
     border:none;
     border-radius:50%;
@@ -649,21 +706,12 @@
     cursor:pointer;
   }
   .music-toggle svg,.music-mute svg{width:15px;height:15px;}
-  .music-volume{
-    width:64px;
-    height:3px;
-    accent-color:var(--moss);
-    cursor:pointer;
-  }
-  @media (max-width:360px){
-    .music-volume{width:44px;}
-  }
 
   /* ============ RSVP 모달 ============ */
   .rsvp-overlay{
     position:fixed;inset:0;
     z-index:60;
-    background:rgba(20,24,18,.55);
+    background:rgba(38,20,25,.55);
     display:flex;
     align-items:flex-end;
     justify-content:center;
@@ -823,7 +871,7 @@
   </section>
 
   <div class="divider reveal">
-    <svg viewBox="0 0 120 22" fill="none"><path d="M2 11 C 30 -4, 45 26, 60 11 S 90 -4, 118 11" stroke="#5C6E51" stroke-width="1"/><circle cx="60" cy="11" r="2.4" fill="#A98247"/></svg>
+    <svg viewBox="0 0 120 22" fill="none"><path d="M2 11 C 30 -4, 45 26, 60 11 S 90 -4, 118 11" stroke="#C97B8C" stroke-width="1"/><circle cx="60" cy="11" r="2.4" fill="#C7A08F"/></svg>
   </div>
 
   <!-- ============ 3. 갤러리 ============ -->
@@ -844,11 +892,25 @@
         <div class="gallery-count" id="galleryCount">1 / 8</div>
       </div>
       <div class="gallery-dots" id="galleryDots"></div>
+      <button class="gallery-viewall-btn" id="galleryViewAllBtn" type="button">
+        <svg viewBox="0 0 24 24" fill="none"><rect x="4" y="4" width="7" height="7" rx="1.2" stroke="currentColor" stroke-width="1.7"/><rect x="13" y="4" width="7" height="7" rx="1.2" stroke="currentColor" stroke-width="1.7"/><rect x="4" y="13" width="7" height="7" rx="1.2" stroke="currentColor" stroke-width="1.7"/><rect x="13" y="13" width="7" height="7" rx="1.2" stroke="currentColor" stroke-width="1.7"/></svg>
+        사진 전체 보기
+      </button>
     </div>
   </section>
 
+  <div class="lightbox-overlay" id="lightboxOverlay">
+    <div class="lightbox-header">
+      <p class="lightbox-title serif">우리의 순간들</p>
+      <button class="lightbox-close" id="lightboxClose" type="button" aria-label="닫기">
+        <svg viewBox="0 0 24 24" fill="none"><path d="M6 6l12 12M18 6L6 18" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>
+      </button>
+    </div>
+    <div class="lightbox-grid" id="lightboxGrid"></div>
+  </div>
+
   <div class="divider reveal">
-    <svg viewBox="0 0 120 22" fill="none"><path d="M2 11 C 30 -4, 45 26, 60 11 S 90 -4, 118 11" stroke="#5C6E51" stroke-width="1"/><circle cx="60" cy="11" r="2.4" fill="#A98247"/></svg>
+    <svg viewBox="0 0 120 22" fill="none"><path d="M2 11 C 30 -4, 45 26, 60 11 S 90 -4, 118 11" stroke="#C97B8C" stroke-width="1"/><circle cx="60" cy="11" r="2.4" fill="#C7A08F"/></svg>
   </div>
 
   <!-- ============ 4. 오시는 길 ============ -->
@@ -871,7 +933,7 @@
              loading="lazy">
         <div class="map-pin">
           <svg viewBox="0 0 34 34" fill="none">
-            <path d="M17 33c0-9-14-13.2-14-22A14 14 0 0 1 31 11c0 8.8-14 13-14 22z" fill="#B97C6D"/>
+            <path d="M17 33c0-9-14-13.2-14-22A14 14 0 0 1 31 11c0 8.8-14 13-14 22z" fill="#C97B8C"/>
             <circle cx="17" cy="11.5" r="4.5" fill="#FFFDF9"/>
           </svg>
         </div>
@@ -884,20 +946,21 @@
     <p class="venue-name serif">웨딩스퀘어 강변</p>
     <p class="venue-address">서울특별시 광진구 광나루로56길 85<br>강변테크노마트 4층 그레이스홀</p>
 
-    <div class="venue-actions">
-      <a class="btn solid" href="https://naver.me/FdCx2LFq" target="_blank" rel="noopener">
+    <div class="venue-actions-mini">
+      <a class="mini-btn" href="https://naver.me/FdCx2LFq" target="_blank" rel="noopener">
         <svg viewBox="0 0 24 24" fill="none"><path d="M12 21s7-6.5 7-12a7 7 0 1 0-14 0c0 5.5 7 12 7 12z" stroke="currentColor" stroke-width="1.8"/><circle cx="12" cy="9" r="2.4" stroke="currentColor" stroke-width="1.8"/></svg>
-        네이버지도로 길찾기
+        네이버지도
       </a>
-      <a class="btn" href="https://map.kakao.com/?q=%EC%9B%A8%EB%94%A9%EC%8A%A4%ED%80%98%EC%96%B4%20%EA%B0%95%EB%B3%80" target="_blank" rel="noopener">
+      <a class="mini-btn" href="https://map.kakao.com/?q=%EC%9B%A8%EB%94%A9%EC%8A%A4%ED%80%98%EC%96%B4%20%EA%B0%95%EB%B3%80" target="_blank" rel="noopener">
         <svg viewBox="0 0 24 24" fill="none"><path d="M12 21s7-6.5 7-12a7 7 0 1 0-14 0c0 5.5 7 12 7 12z" stroke="currentColor" stroke-width="1.8"/><circle cx="12" cy="9" r="2.4" stroke="currentColor" stroke-width="1.8"/></svg>
-        카카오맵으로 길찾기
+        카카오맵
       </a>
-      <button class="btn" id="copyAddressBtn">
-        <svg viewBox="0 0 24 24" fill="none"><rect x="8" y="8" width="12" height="12" rx="1.5" stroke="currentColor" stroke-width="1.8"/><path d="M5 15V5a1 1 0 0 1 1-1h10" stroke="currentColor" stroke-width="1.8"/></svg>
-        주소 복사하기
-      </button>
+      <a class="mini-btn" href="tmap://route?goalx=127.0946&amp;goaly=37.5356&amp;goalname=%EC%9B%A8%EB%94%A9%EC%8A%A4%ED%80%98%EC%96%B4%20%EA%B0%95%EB%B3%80">
+        <svg viewBox="0 0 24 24" fill="none"><path d="M12 21s7-6.5 7-12a7 7 0 1 0-14 0c0 5.5 7 12 7 12z" stroke="currentColor" stroke-width="1.8"/><circle cx="12" cy="9" r="2.4" stroke="currentColor" stroke-width="1.8"/></svg>
+        티맵
+      </a>
     </div>
+    <button class="copy-address-link" id="copyAddressBtn" type="button">주소 복사하기</button>
 
     <div class="transit-guide">
       <div class="transit-row">
@@ -933,7 +996,7 @@
   </section>
 
   <div class="divider reveal">
-    <svg viewBox="0 0 120 22" fill="none"><path d="M2 11 C 30 -4, 45 26, 60 11 S 90 -4, 118 11" stroke="#5C6E51" stroke-width="1"/><circle cx="60" cy="11" r="2.4" fill="#A98247"/></svg>
+    <svg viewBox="0 0 120 22" fill="none"><path d="M2 11 C 30 -4, 45 26, 60 11 S 90 -4, 118 11" stroke="#C97B8C" stroke-width="1"/><circle cx="60" cy="11" r="2.4" fill="#C7A08F"/></svg>
   </div>
 
   <!-- ============ 5. 신랑측 / 신부측 연락처 ============ -->
@@ -968,8 +1031,11 @@
       </div>
     </div>
 
-    <div class="contact-card parent-card">
-      <p class="contact-role">혼주</p>
+    <details class="contact-card parent-card">
+      <summary class="parent-summary">
+        <span class="contact-role">혼주 보기</span>
+        <svg class="parent-chevron" viewBox="0 0 24 24" fill="none"><path d="M6 9l6 6 6-6" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </summary>
       <div class="parent-split">
         <div class="parent-col">
           <div class="contact-person small">아버지 안ㅇㅇ</div>
@@ -984,7 +1050,7 @@
           </a>
         </div>
       </div>
-    </div>
+    </details>
 
     <div class="contact-card">
       <p class="contact-role">BRIDE · 신부측</p>
@@ -1013,8 +1079,11 @@
       </div>
     </div>
 
-    <div class="contact-card parent-card">
-      <p class="contact-role">혼주</p>
+    <details class="contact-card parent-card">
+      <summary class="parent-summary">
+        <span class="contact-role">혼주 보기</span>
+        <svg class="parent-chevron" viewBox="0 0 24 24" fill="none"><path d="M6 9l6 6 6-6" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </summary>
       <div class="parent-split">
         <div class="parent-col">
           <div class="contact-person small">아버지 윤ㅇㅇ</div>
@@ -1029,11 +1098,11 @@
           </a>
         </div>
       </div>
-    </div>
+    </details>
   </section>
 
   <div class="divider reveal">
-    <svg viewBox="0 0 120 22" fill="none"><path d="M2 11 C 30 -4, 45 26, 60 11 S 90 -4, 118 11" stroke="#5C6E51" stroke-width="1"/><circle cx="60" cy="11" r="2.4" fill="#A98247"/></svg>
+    <svg viewBox="0 0 120 22" fill="none"><path d="M2 11 C 30 -4, 45 26, 60 11 S 90 -4, 118 11" stroke="#C97B8C" stroke-width="1"/><circle cx="60" cy="11" r="2.4" fill="#C7A08F"/></svg>
   </div>
 
   <!-- ============ 방명록 ============ -->
@@ -1042,13 +1111,8 @@
     <h2 class="section-title">방명록</h2>
 
     <form class="gb-form" id="gbForm">
-      <div class="gb-form-row">
-        <input class="rsvp-input" id="gbName" type="text" placeholder="이름 *" required maxlength="20">
-        <input class="rsvp-input" id="gbPassword" type="password" placeholder="비밀번호 4자리 *" required maxlength="4" pattern="[0-9]{4}" inputmode="numeric">
-      </div>
-      <input class="rsvp-input" id="gbAvatar" type="url" placeholder="프로필 이미지 URL (선택)">
+      <input class="rsvp-input" id="gbName" type="text" placeholder="이름 *" required maxlength="20">
       <textarea class="rsvp-input rsvp-textarea" id="gbMessage" rows="3" placeholder="따뜻한 축하의 한마디를 남겨주세요 *" required maxlength="300"></textarea>
-      <p class="gb-hint">비밀번호는 나중에 글을 수정·삭제할 때 필요해요. 잊지 않게 기억해주세요.</p>
       <button class="rsvp-submit" type="submit">방명록 남기기</button>
     </form>
 
@@ -1077,11 +1141,10 @@
   <source src="audio/bgm.mp3" type="audio/mpeg">
 </audio>
 <div class="music-player" id="musicPlayer">
-  <button class="music-toggle" id="musicToggle" type="button" aria-label="음악 재생/정지">
+  <button class="music-toggle" id="musicToggle" type="button" aria-label="음악 재생/일시정지">
     <svg id="musicIconPlay" viewBox="0 0 24 24" fill="none"><path d="M9 6.5v11l9-5.5-9-5.5z" fill="currentColor"/></svg>
     <svg id="musicIconPause" viewBox="0 0 24 24" fill="none" hidden><rect x="7" y="6" width="3.4" height="12" rx="1" fill="currentColor"/><rect x="13.6" y="6" width="3.4" height="12" rx="1" fill="currentColor"/></svg>
   </button>
-  <input class="music-volume" id="musicVolume" type="range" min="0" max="100" value="60" aria-label="음량 조절">
   <button class="music-mute" id="musicMute" type="button" aria-label="음소거">
     <svg id="musicIconSound" viewBox="0 0 24 24" fill="none"><path d="M4 9v6h4l5 4V5L8 9H4z" fill="currentColor"/><path d="M16 9c1 1 1 5 0 6" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg>
     <svg id="musicIconMuted" viewBox="0 0 24 24" fill="none" hidden><path d="M4 9v6h4l5 4V5L8 9H4z" fill="currentColor"/><path d="M15.5 9.5l4 4M19.5 9.5l-4 4" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg>
@@ -1125,8 +1188,8 @@
 
         <label class="rsvp-label" for="rsvpPhone">연락처 (선택)</label>
         <input class="rsvp-input" id="rsvpPhone" name="rsvpPhone" type="tel" placeholder="010-0000-0000">
-<!-- 
-        <label class="rsvp-label" for="rsvpMessage">축하 메시지 (선택)</label>
+
+        <!-- <label class="rsvp-label" for="rsvpMessage">축하 메시지 (선택)</label>
         <textarea class="rsvp-input rsvp-textarea" id="rsvpMessage" name="rsvpMessage" rows="3" placeholder="따뜻한 한마디를 남겨주세요"></textarea> -->
 
         <button class="rsvp-submit" type="submit">전달하기</button>
@@ -1135,7 +1198,7 @@
 
     <div id="rsvpDoneView" class="rsvp-done" hidden>
       <div class="rsvp-done-icon">
-        <svg viewBox="0 0 24 24" fill="none"><path d="M5 12.5l4.5 4.5L19 7" stroke="#5C6E51" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        <svg viewBox="0 0 24 24" fill="none"><path d="M5 12.5l4.5 4.5L19 7" stroke="#C97B8C" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
       </div>
       <p class="rsvp-done-title serif">감사합니다</p>
       <p class="rsvp-done-desc">소중한 마음 잘 전달받았습니다.</p>
@@ -1144,12 +1207,11 @@
   </div>
 </div>
 
-<!-- ============ 방명록용 Firebase (Firestore) ============
-     ⚠️ 아래 FIREBASE_CONFIG를 본인의 Firebase 프로젝트 설정으로 교체해야
+<!-- ============ 방명록용 Supabase ============
+     ⚠️ 아래 SUPABASE_CONFIG를 본인의 Supabase 프로젝트 값으로 교체해야
      방명록이 실제로 저장/공유됩니다. 설정 방법은 채팅 안내를 참고하세요.
-     이 config 값들은 공개되어도 되는 값입니다(비밀키 아님) -->
-<script src="https://www.gstatic.com/firebasejs/10.13.0/firebase-app-compat.js"></script>
-<script src="https://www.gstatic.com/firebasejs/10.13.0/firebase-firestore-compat.js"></script>
+     이 값들(project URL, anon key)은 공개되어도 되는 값입니다(비밀키 아님) -->
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
 <script>
 (function(){
@@ -1348,6 +1410,27 @@
 
   update();
 
+  /* ---------- 사진 전체보기 팝업 ---------- */
+  var lightboxOverlay = document.getElementById('lightboxOverlay');
+  var lightboxGrid = document.getElementById('lightboxGrid');
+  var lightboxClose = document.getElementById('lightboxClose');
+  var galleryViewAllBtn = document.getElementById('galleryViewAllBtn');
+
+  lightboxGrid.innerHTML = photos.map(function(src, i){
+    return '<img src="' + src + '" alt="웨딩 사진 ' + (i + 1) + '" loading="lazy">';
+  }).join('');
+
+  function openLightbox(){
+    lightboxOverlay.classList.add('open');
+    document.body.style.overflow = 'hidden';
+  }
+  function closeLightbox(){
+    lightboxOverlay.classList.remove('open');
+    document.body.style.overflow = '';
+  }
+  galleryViewAllBtn.addEventListener('click', openLightbox);
+  lightboxClose.addEventListener('click', closeLightbox);
+
   /* ---------- 복사 (주소 / 계좌번호) — 클립보드 API + 구형 iOS 대체 ---------- */
   var toast = document.getElementById('toast');
   var toastTimer;
@@ -1395,11 +1478,10 @@
     });
   });
 
-  /* ---------- 배경음악 재생/음소거/음량 ---------- */
+  /* ---------- 배경음악 재생/일시정지/음소거 ---------- */
   var bgm = document.getElementById('bgm');
   var musicToggle = document.getElementById('musicToggle');
   var musicMute = document.getElementById('musicMute');
-  var musicVolume = document.getElementById('musicVolume');
   var iconPlay = document.getElementById('musicIconPlay');
   var iconPause = document.getElementById('musicIconPause');
   var iconSound = document.getElementById('musicIconSound');
@@ -1426,20 +1508,6 @@
       bgm.muted = !bgm.muted;
       iconSound.hidden = bgm.muted;
       iconMuted.hidden = !bgm.muted;
-    });
-
-    musicVolume.addEventListener('input', function(){
-      var v = Number(musicVolume.value) / 100;
-      bgm.volume = v;
-      if (v === 0) {
-        bgm.muted = true;
-        iconSound.hidden = true;
-        iconMuted.hidden = false;
-      } else if (bgm.muted) {
-        bgm.muted = false;
-        iconSound.hidden = false;
-        iconMuted.hidden = true;
-      }
     });
   }
 
@@ -1504,7 +1572,7 @@
     data.append(RSVP_CONFIG.entry.attend, rsvpForm.querySelector('input[name="rsvpAttend"]:checked').value);
     data.append(RSVP_CONFIG.entry.count, document.getElementById('rsvpCount').value);
     data.append(RSVP_CONFIG.entry.phone, document.getElementById('rsvpPhone').value);
-    // data.append(RSVP_CONFIG.entry.message, document.getElementById('rsvpMessage').value);
+    data.append(RSVP_CONFIG.entry.message, document.getElementById('rsvpMessage').value);
 
     // 구글 폼은 CORS 응답을 주지 않으므로 no-cors로 전송하고 성공으로 간주합니다.
     fetch(RSVP_CONFIG.formActionUrl, { method: 'POST', mode: 'no-cors', body: data })
@@ -1521,24 +1589,19 @@
     rsvpDoneView.hidden = false;
   }
 
-  /* ---------- 방명록 (Firebase Firestore) ---------- */
-  // ⚠️ 본인 Firebase 프로젝트의 설정값으로 교체해야 방명록이 실제로 저장/공유됩니다.
+  /* ---------- 방명록 (Supabase) ---------- */
+  // ⚠️ 본인 Supabase 프로젝트의 값으로 교체해야 방명록이 실제로 저장/공유됩니다.
   //    설정 방법은 채팅 안내를 참고하세요.
-  var FIREBASE_CONFIG = {
-    apiKey: "REPLACE_WITH_YOUR_API_KEY",
-    authDomain: "REPLACE_WITH_YOUR_PROJECT.firebaseapp.com",
-    projectId: "REPLACE_WITH_YOUR_PROJECT",
-    storageBucket: "REPLACE_WITH_YOUR_PROJECT.appspot.com",
-    messagingSenderId: "REPLACE_WITH_YOUR_SENDER_ID",
-    appId: "REPLACE_WITH_YOUR_APP_ID"
+  var SUPABASE_CONFIG = {
+    url: "https://wuejeqoyngwbzfwuqjbr.supabase.co",
+    anonKey: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Ind1ZWplcW95bmd3Ynpmd3VxamJyIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODcxNzY1ODEsImV4cCI6MjEwMjc1MjU4MX0.Bv49vLyCeud955qqfv0Rp4kI2LY4c93gk7I5oLjHJB8"
   };
-  var GB_READY = FIREBASE_CONFIG.apiKey.indexOf('REPLACE_WITH') === -1;
+  var GB_READY = SUPABASE_CONFIG.url.indexOf('REPLACE_WITH') === -1;
 
   var gbForm = document.getElementById('gbForm');
   var gbList = document.getElementById('gbList');
   var gbEmpty = document.getElementById('gbEmpty');
-  var gbCache = {}; // id -> {name, avatarUrl, message, password, createdAt}
-  var gbCol = null;
+  var sb = null;
 
   function escapeHtml(str){
     return String(str == null ? '' : str).replace(/[&<>"']/g, function(c){
@@ -1546,159 +1609,79 @@
     });
   }
 
-  function formatGbTime(ts){
-    if (!ts || typeof ts.toDate !== 'function') return '방금 전';
-    var d = ts.toDate();
+  function formatGbTime(isoString){
+    if (!isoString) return '방금 전';
+    var d = new Date(isoString);
     function pad(n){ return (n < 10 ? '0' : '') + n; }
     return d.getFullYear() + '.' + pad(d.getMonth()+1) + '.' + pad(d.getDate()) + ' ' + pad(d.getHours()) + ':' + pad(d.getMinutes());
   }
 
-  function gbAvatarHtml(item){
-    if (item.avatarUrl) {
-      return '<img class="gb-avatar" src="' + escapeHtml(item.avatarUrl) + '" alt="" onerror="this.style.display=\'none\'">';
-    }
-    var initial = (item.name || '?').trim().charAt(0);
-    return '<div class="gb-avatar">' + escapeHtml(initial) + '</div>';
-  }
-
-  function renderGbList(){
-    var ids = Object.keys(gbCache);
-    if (ids.length === 0) {
+  function renderGbList(rows){
+    if (!rows || rows.length === 0) {
       gbList.innerHTML = '';
       gbList.appendChild(gbEmpty);
       gbEmpty.hidden = false;
       return;
     }
     gbEmpty.hidden = true;
-    ids.sort(function(a, b){
-      var ta = gbCache[a].createdAt && gbCache[a].createdAt.toMillis ? gbCache[a].createdAt.toMillis() : 0;
-      var tb = gbCache[b].createdAt && gbCache[b].createdAt.toMillis ? gbCache[b].createdAt.toMillis() : 0;
-      return tb - ta;
-    });
-
-    var html = ids.map(function(id){
-      var item = gbCache[id];
+    gbList.innerHTML = rows.map(function(item){
       return (
-        '<div class="gb-item" data-id="' + id + '">' +
+        '<div class="gb-item">' +
           '<div class="gb-item-head">' +
-            gbAvatarHtml(item) +
-            '<div class="gb-meta">' +
-              '<div class="gb-name">' + escapeHtml(item.name) + '</div>' +
-              '<div class="gb-time">' + formatGbTime(item.createdAt) + '</div>' +
-            '</div>' +
-            '<div class="gb-actions">' +
-              '<button class="gb-action-btn gb-edit-btn" type="button" aria-label="수정">' +
-                '<svg viewBox="0 0 24 24" fill="none"><path d="M4 20l1-4L16 5l3 3L8 19l-4 1z" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/></svg>' +
-              '</button>' +
-              '<button class="gb-action-btn gb-delete-btn" type="button" aria-label="삭제">' +
-                '<svg viewBox="0 0 24 24" fill="none"><path d="M5 7h14M9 7V5a1 1 0 0 1 1-1h4a1 1 0 0 1 1 1v2m-8 0v12a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V7" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>' +
-              '</button>' +
-            '</div>' +
+            '<span class="gb-name">' + escapeHtml(item.name) + '</span>' +
+            '<span class="gb-time">' + formatGbTime(item.created_at) + '</span>' +
           '</div>' +
-          '<div class="gb-message" data-view>' + escapeHtml(item.message) + '</div>' +
+          '<div class="gb-message">' + escapeHtml(item.message) + '</div>' +
         '</div>'
       );
     }).join('');
-    gbList.innerHTML = html;
   }
 
-  if (GB_READY && window.firebase) {
-    firebase.initializeApp(FIREBASE_CONFIG);
-    var gbDb = firebase.firestore();
-    gbCol = gbDb.collection('guestbook');
-
-    gbCol.orderBy('createdAt', 'desc').onSnapshot(function(snapshot){
-      gbCache = {};
-      snapshot.forEach(function(doc){
-        gbCache[doc.id] = doc.data();
+  function loadGbList(){
+    sb.from('guestbook').select('*').order('created_at', { ascending: false })
+      .then(function(res){
+        if (res.error) { showToast('방명록을 불러오지 못했습니다'); return; }
+        renderGbList(res.data);
       });
-      renderGbList();
-    }, function(){
-      showToast('방명록을 불러오지 못했습니다');
-    });
+  }
+
+  if (GB_READY && window.supabase) {
+    sb = window.supabase.createClient(SUPABASE_CONFIG.url, SUPABASE_CONFIG.anonKey);
+    loadGbList();
+
+    // 다른 방문자가 방명록을 남기면 실시간으로 갱신 (Supabase에서 Realtime 활성화 필요)
+    try {
+      sb.channel('guestbook-changes')
+        .on('postgres_changes', { event: '*', schema: 'public', table: 'guestbook' }, function(){
+          loadGbList();
+        })
+        .subscribe();
+    } catch (err) { /* Realtime 미설정 시 무시 — 새로고침으로도 최신 내용이 보입니다 */ }
 
     gbForm.addEventListener('submit', function(e){
       e.preventDefault();
       var name = document.getElementById('gbName').value.trim();
-      var password = document.getElementById('gbPassword').value.trim();
-      var avatarUrl = document.getElementById('gbAvatar').value.trim();
       var message = document.getElementById('gbMessage').value.trim();
 
-      if (!name || !message || !/^[0-9]{4}$/.test(password)) {
-        showToast('이름 · 4자리 비밀번호 · 내용을 확인해주세요');
+      if (!name || !message) {
+        showToast('이름과 내용을 입력해주세요');
         return;
       }
 
       var submitBtn = gbForm.querySelector('.rsvp-submit');
       submitBtn.disabled = true;
 
-      gbCol.add({
-        name: name,
-        password: password,
-        avatarUrl: avatarUrl || null,
-        message: message,
-        createdAt: firebase.firestore.FieldValue.serverTimestamp()
-      }).then(function(){
-        gbForm.reset();
-        showToast('방명록이 등록되었습니다');
-      }).catch(function(){
-        showToast('등록에 실패했습니다. 잠시 후 다시 시도해주세요');
-      }).finally(function(){
-        submitBtn.disabled = false;
-      });
-    });
-
-    gbList.addEventListener('click', function(e){
-      var editBtn = e.target.closest('.gb-edit-btn');
-      var deleteBtn = e.target.closest('.gb-delete-btn');
-      if (!editBtn && !deleteBtn) return;
-
-      var itemEl = e.target.closest('.gb-item');
-      var id = itemEl.getAttribute('data-id');
-      var item = gbCache[id];
-      if (!item) return;
-
-      var inputPw = window.prompt('작성하실 때 입력한 4자리 비밀번호를 입력해주세요.');
-      if (inputPw === null) return;
-      if (inputPw !== item.password) {
-        showToast('비밀번호가 일치하지 않습니다');
-        return;
-      }
-
-      if (deleteBtn) {
-        if (window.confirm('방명록을 삭제할까요? 되돌릴 수 없습니다.')) {
-          gbCol.doc(id).delete().catch(function(){
-            showToast('삭제에 실패했습니다');
-          });
-        }
-        return;
-      }
-
-      if (editBtn) {
-        var viewEl = itemEl.querySelector('[data-view]');
-        viewEl.outerHTML =
-          '<div class="gb-edit-area" data-edit>' +
-            '<textarea class="rsvp-input rsvp-textarea" maxlength="300">' + escapeHtml(item.message) + '</textarea>' +
-            '<div class="gb-edit-actions">' +
-              '<button type="button" class="gb-cancel-btn">취소</button>' +
-              '<button type="button" class="gb-save-btn">저장</button>' +
-            '</div>' +
-          '</div>';
-
-        itemEl.querySelector('.gb-cancel-btn').addEventListener('click', function(){
-          renderGbList();
-        });
-        itemEl.querySelector('.gb-save-btn').addEventListener('click', function(){
-          var newMsg = itemEl.querySelector('textarea').value.trim();
-          if (!newMsg) { showToast('내용을 입력해주세요'); return; }
-          gbCol.doc(id).update({
-            message: newMsg,
-            updatedAt: firebase.firestore.FieldValue.serverTimestamp()
-          }).catch(function(){
-            showToast('수정에 실패했습니다');
-          });
-        });
-      }
+      sb.from('guestbook').insert({ name: name, message: message })
+        .then(function(res){
+          if (res.error) {
+            showToast('등록에 실패했습니다. 잠시 후 다시 시도해주세요');
+          } else {
+            gbForm.reset();
+            showToast('방명록이 등록되었습니다');
+            loadGbList();
+          }
+        })
+        .finally(function(){ submitBtn.disabled = false; });
     });
   } else {
     gbForm.addEventListener('submit', function(e){
